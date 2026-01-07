@@ -1,11 +1,11 @@
-name: AI App CI/CD Pipeline
+name: AI App CI Pipeline
 
 on:
   push:
     branches: [ "main" ]
 
 jobs:
-  build-test-deploy:
+  build-test-push:
     runs-on: ubuntu-latest
 
     steps:
@@ -25,11 +25,12 @@ jobs:
       run: |
         python test_app.py
 
-    - name: Build Docker Image
+    - name: Login to Docker Hub
       run: |
-        docker build -t ai-resume-matcher .
+        echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login \
+        -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
 
-    - name: Deployment Step
+    - name: Build & Push Docker Image
       run: |
-        echo "Docker image built successfully 🚀"
-
+        docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/ai-resume-matcher:latest .
+        docker push ${{ secrets.DOCKERHUB_USERNAME }}/ai-resume-matcher:latest
