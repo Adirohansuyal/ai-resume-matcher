@@ -29,6 +29,11 @@ jobs:
       run: |
         docker build -t ai-resume-matcher .
 
-    - name: Deployment Step
+    - name: Deploy to Render
+      env:
+        RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
       run: |
-        echo "Docker image built successfully 🚀"
+        curl -X POST \
+          -H "Authorization: Bearer $RENDER_API_KEY" \
+          -H "Accept: application/json" \
+          https://api.render.com/deploy/srv-d5faqj24d50c739llsdg
