@@ -1,7 +1,7 @@
 import streamlit as st
 from model import match_resume
 
-st.title("AI Resume Skill Matcher 🤖")
+st.title("AI Resume Skilll Matcher 🤖")
 
 resume = st.text_area("Paste Resume Text")
 job = st.text_area("Paste Job Description")
